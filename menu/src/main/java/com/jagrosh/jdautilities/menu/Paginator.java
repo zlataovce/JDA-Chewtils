@@ -642,6 +642,17 @@ public class Paginator extends Menu
         }
 
         /**
+         * Gets the String list of items to paginate.
+         * <br>Useful when determining amount of items are being paginated.
+         *
+         * @return the String list
+         */
+        public List<String> getItems()
+        {
+            return strings;
+        }
+
+        /**
          * Sets the {@link com.jagrosh.jdautilities.menu.Paginator Paginator}'s bulk-skip
          * function to skip multiple pages using alternate forward and backwards
          *
