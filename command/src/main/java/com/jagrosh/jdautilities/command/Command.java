@@ -162,9 +162,18 @@ public abstract class Command
      * <br>Default {@link com.jagrosh.jdautilities.command.Command.CooldownScope#USER CooldownScope.USER}.
      */
     protected CooldownScope cooldownScope = CooldownScope.USER;
-    
-    private final static String BOT_PERM = "%s I need the %s permission in this %s!";
-    private final static String USER_PERM = "%s You must have the %s permission in this %s to use that!";
+
+    /**
+     * The permission message used when the bot does not have the requires permission.
+     * Requires 3 "%s", first is user mention, second is the permission needed, third is type, e.g. Guild.
+     */
+    protected String botMissingPermMessage = "%s I need the %s permission in this %s!";
+
+    /**
+     * The permission message used when the user does not have the requires permission.
+     * Requires 3 "%s", first is user mention, second is the permission needed, third is type, e.g. Guild.
+     */
+    protected String userMissingPermMessage = "%s You must have the %s permission in this %s to use that!";
     
     /**
      * The main body method of a {@link com.jagrosh.jdautilities.command.Command Command}.
@@ -255,7 +264,7 @@ public abstract class Command
                         }
                         else if(!event.getSelfMember().hasPermission(vc, p))
                         {
-                            terminate(event, String.format(BOT_PERM, event.getClient().getError(), p.getName(), "Voice Channel"));
+                            terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "Voice Channel"));
                             return;
                         }
                     }
@@ -263,7 +272,7 @@ public abstract class Command
                     {
                         if(!event.getSelfMember().hasPermission(event.getTextChannel(), p))
                         {
-                            terminate(event, String.format(BOT_PERM, event.getClient().getError(), p.getName(), "Channel"));
+                            terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "Channel"));
                             return;
                         }
                     }
@@ -272,7 +281,7 @@ public abstract class Command
                 {
                     if(!event.getSelfMember().hasPermission(p))
                     {
-                        terminate(event, String.format(BOT_PERM, event.getClient().getError(), p.getName(), "Guild"));
+                        terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "Guild"));
                         return;
                     }
                 }
@@ -285,7 +294,7 @@ public abstract class Command
                 {
                     if(!event.getMember().hasPermission(event.getTextChannel(), p))
                     {
-                        terminate(event, String.format(USER_PERM, event.getClient().getError(), p.getName(), "Channel"));
+                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "Channel"));
                         return;
                     }
                 }
@@ -293,7 +302,7 @@ public abstract class Command
                 {
                     if(!event.getMember().hasPermission(p))
                     {
-                        terminate(event, String.format(USER_PERM, event.getClient().getError(), p.getName(), "Guild"));
+                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "Guild"));
                         return;
                     }
                 }
