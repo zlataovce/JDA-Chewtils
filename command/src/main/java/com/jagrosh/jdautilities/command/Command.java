@@ -264,7 +264,7 @@ public abstract class Command
                         }
                         else if(!event.getSelfMember().hasPermission(vc, p))
                         {
-                            terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "Voice Channel"));
+                            terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "voice channel"));
                             return;
                         }
                     }
@@ -272,7 +272,7 @@ public abstract class Command
                     {
                         if(!event.getSelfMember().hasPermission(event.getTextChannel(), p))
                         {
-                            terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "Channel"));
+                            terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "channel"));
                             return;
                         }
                     }
@@ -281,7 +281,7 @@ public abstract class Command
                 {
                     if(!event.getSelfMember().hasPermission(p))
                     {
-                        terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "Guild"));
+                        terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "server"));
                         return;
                     }
                 }
@@ -294,7 +294,7 @@ public abstract class Command
                 {
                     if(!event.getMember().hasPermission(event.getTextChannel(), p))
                     {
-                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "Channel"));
+                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "channel"));
                         return;
                     }
                 }
@@ -302,7 +302,7 @@ public abstract class Command
                 {
                     if(!event.getMember().hasPermission(p))
                     {
-                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "Guild"));
+                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "server"));
                         return;
                     }
                 }
@@ -310,7 +310,7 @@ public abstract class Command
         }
         else if(guildOnly)
         {
-            terminate(event, event.getClient().getError()+" This command cannot be used in Direct messages");
+            terminate(event, event.getClient().getError()+" This command cannot be used in direct messages");
             return;
         }
         
