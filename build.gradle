@@ -19,10 +19,9 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
     id 'com.github.ben-manes.versions' version '0.17.0'
     id 'com.github.johnrengelman.shadow' version '2.0.2'
-    id 'com.jfrog.bintray' version '1.8.4'
 }
 
-def versionInfo = [major: '3', minor: '0', revision: '5']
+def versionInfo = [major: '1', minor: System.getenv("BUILD_NUMBER").toString()]
 
 task build {
     group = 'build'
@@ -30,14 +29,13 @@ task build {
 
 allprojects {
     apply plugin: 'maven-publish'
-    apply plugin: 'com.jfrog.bintray'
     apply plugin: 'com.github.johnrengelman.shadow'
 
-    group = 'com.jagrosh'
+    group = 'pw.chew'
     version = versionInfo.values().join('.')
 
     ext {
-        jdaVersion = '4.2.0_214'
+        jdaVersion = '4.2.1_255'
         slf4jVersion = '1.7.25'
         okhttpVersion = '3.13.0'
         findbugsVersion = '3.0.2'
@@ -91,7 +89,11 @@ allprojects {
     }
 
     repositories {
-        jcenter()
+        mavenCentral()
+        maven {
+            name 'm2-dv8tion'
+            url 'https://m2.dv8tion.net/releases'
+        }
     }
 
     build {
@@ -104,36 +106,23 @@ allprojects {
         dependsOn { shadowJar }
     }
 
-    bintray {
-        user = bintrayUsername
-        key = bintrayApiKey
-        publications = ['BintrayRelease']
-        publish = true
-        pkg {
-            repo = 'maven'
-            name = 'JDA-Utilities'
-            licenses = ['Apache-2.0']
-            vcsUrl = 'https://github.com/JDA-Applications/JDA-Utilities'
-            version {
-                name = project.version
-                released = new Date()
-            }
-        }
-    }
-
-    bintrayUpload {
-        dependsOn { rootProject.getTasksByName('build', true) }
-
-        onlyIf { !project.property('bintrayUsername')?.trim()?.empty }
-        onlyIf { !project.property('bintrayApiKey')?.trim()?.empty }
-    }
-
     publishing {
         publications {
-            BintrayRelease(MavenPublication) {
-                it.groupId = project.group
-                it.artifactId = project.artifactId
-                it.version = project.version
+            maven(MavenPublication) {
+                groupId = project.group
+                artifactId = project.artifactId
+                version = project.version
+            }
+        }
+        repositories {
+            maven {
+                def releasesRepoUrl = "https://m2.chew.pro/releases"
+                def snapshotsRepoUrl = "https://m2.chew.pro/snapshots"
+                url = project.version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username = project.property("mchew-username")
+                    password = project.property("mchew-password")
+                }
             }
         }
     }
@@ -162,8 +151,7 @@ subprojects {
         from('src/main/java') {
             filter(ReplaceTokens, tokens: [
                 VERSION_MAJOR:    versionInfo.major,
-                VERSION_MINOR:    versionInfo.minor,
-                VERSION_REVISION: versionInfo.revision
+                VERSION_MINOR:    versionInfo.minor
             ])
         }
         into 'build/filteredSrc'
@@ -206,7 +194,7 @@ subprojects {
 
     publishing {
         publications {
-            BintrayRelease(MavenPublication) {
+            maven(MavenPublication) {
                 from components.java
                 artifact javadocJar
                 artifact sourceJar
@@ -290,14 +278,14 @@ task clean(type: Delete) {
 
 publishing {
     publications {
-        BintrayRelease(MavenPublication) {
+        maven(MavenPublication) {
             pom.withXml {
                 def repositoriesNode = asNode().appendNode('repositories')
                 def repositoryNode = repositoriesNode.appendNode('repository')
 
-                repositoryNode.appendNode('name', 'bintray')
-                repositoryNode.appendNode('id', 'bintray-jagrosh-maven')
-                repositoryNode.appendNode('url', 'https://dl.bintray.com/jagrosh/maven')
+                repositoryNode.appendNode('name', 'm2-chew')
+                repositoryNode.appendNode('id', 'm2-chew')
+                repositoryNode.appendNode('url', 'https://m2.chew.pro')
 
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.allDependencies.each {
