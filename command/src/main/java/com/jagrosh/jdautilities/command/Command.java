@@ -248,6 +248,27 @@ public abstract class Command
         // availability check
         if(event.getChannelType()==ChannelType.TEXT)
         {
+            //user perms
+            for(Permission p: userPermissions)
+            {
+                if(p.isChannel())
+                {
+                    if(!event.getMember().hasPermission(event.getTextChannel(), p))
+                    {
+                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "channel"));
+                        return;
+                    }
+                }
+                else
+                {
+                    if(!event.getMember().hasPermission(p))
+                    {
+                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "server"));
+                        return;
+                    }
+                }
+            }
+
             // bot perms
             for(Permission p: botPermissions)
             {
@@ -282,27 +303,6 @@ public abstract class Command
                     if(!event.getSelfMember().hasPermission(p))
                     {
                         terminate(event, String.format(botMissingPermMessage, event.getClient().getError(), p.getName(), "server"));
-                        return;
-                    }
-                }
-            }
-            
-            //user perms
-            for(Permission p: userPermissions)
-            {
-                if(p.isChannel())
-                {
-                    if(!event.getMember().hasPermission(event.getTextChannel(), p))
-                    {
-                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "channel"));
-                        return;
-                    }
-                }
-                else
-                {
-                    if(!event.getMember().hasPermission(p))
-                    {
-                        terminate(event, String.format(userMissingPermMessage, event.getClient().getError(), p.getName(), "server"));
                         return;
                     }
                 }
