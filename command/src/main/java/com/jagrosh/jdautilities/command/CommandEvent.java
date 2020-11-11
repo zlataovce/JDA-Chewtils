@@ -47,6 +47,7 @@ public class CommandEvent
     public static int MAX_MESSAGES = 2;
     
     private final MessageReceivedEvent event;
+    private final String prefix;
     private String args;
     private final CommandClient client;
     
@@ -58,14 +59,17 @@ public class CommandEvent
      * 
      * @param  event
      *         The initial MessageReceivedEvent
+     * @param  prefix
+     *         The prefix used to execute this command
      * @param  args
      *         The String arguments after the command call
      * @param  client
      *         The {@link com.jagrosh.jdautilities.command.CommandClient CommandClient}
      */
-    public CommandEvent(MessageReceivedEvent event, String args, CommandClient client)
+    public CommandEvent(MessageReceivedEvent event, String prefix, String args, CommandClient client)
     {
         this.event = event;
+        this.prefix = prefix;
         this.args = args == null ? "" : args;
         this.client = client;
     }
@@ -85,7 +89,16 @@ public class CommandEvent
     {
         this.args = args;
     }
-    
+
+    /**
+     * Returns the prefix used when this event was raised. Useful for figuring out what people invoked.
+     *
+     * @return Never null prefix used to raise event
+     */
+    public String getPrefix() {
+        return prefix;
+    }
+
     /**
      * Returns the underlying {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent}
      * for this CommandEvent.

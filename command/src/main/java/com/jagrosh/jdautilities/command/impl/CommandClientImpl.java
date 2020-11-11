@@ -73,6 +73,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private final String[] coOwnerIds;
     private final String prefix;
     private final String altprefix;
+    private final String[] prefixes;
     private final String serverInvite;
     private final HashMap<String, Integer> commandIndex;
     private final ArrayList<Command> commands;
@@ -95,7 +96,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private CommandListener listener = null;
     private int totalGuilds;
 
-    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, Activity activity, OnlineStatus status, String serverInvite,
+    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Activity activity, OnlineStatus status, String serverInvite,
                              String success, String warning, String error, String carbonKey, String botsKey, ArrayList<Command> commands,
                              boolean useHelp, boolean shutdownAutomatically, Consumer<CommandEvent> helpConsumer, String helpWord, ScheduledExecutorService executor,
                              int linkedCacheSize, AnnotatedModuleCompiler compiler, GuildSettingsManager manager)
@@ -120,6 +121,7 @@ public class CommandClientImpl implements CommandClient, EventListener
         this.coOwnerIds = coOwnerIds;
         this.prefix = prefix==null || prefix.isEmpty() ? DEFAULT_PREFIX : prefix;
         this.altprefix = altprefix==null || altprefix.isEmpty() ? null : altprefix;
+        this.prefixes = prefixes==null || prefixes.length == 0 ? null : prefixes;
         this.textPrefix = prefix;
         this.activity = activity;
         this.status = status;
@@ -385,6 +387,11 @@ public class CommandClientImpl implements CommandClient, EventListener
     }
 
     @Override
+    public String[] getPrefixes() {
+        return prefixes;
+    }
+
+    @Override
     public String getAltPrefix()
     {
         return altprefix;
@@ -510,6 +517,17 @@ public class CommandClientImpl implements CommandClient, EventListener
         // Check for alternate prefix
         if(parts == null && altprefix != null && rawContent.toLowerCase().startsWith(altprefix.toLowerCase()))
             parts = splitOnPrefixLength(rawContent, altprefix.length());
+        // Check for prefixes
+        if (prefixes != null)
+        {
+            for (String pre : prefixes)
+            {
+                if (parts == null && rawContent.toLowerCase().startsWith(pre.toLowerCase()))
+                {
+                    parts = splitOnPrefixLength(rawContent, pre.length());
+                }
+            }
+        }
         // Check for guild specific prefixes
         if(parts == null && settings != null)
         {
@@ -526,9 +544,13 @@ public class CommandClientImpl implements CommandClient, EventListener
 
         if(parts!=null) //starts with valid prefix
         {
+            String[] prefixAndArgs = rawContent.split(parts[0]);
+            String prefix = "";
+            if (prefixAndArgs.length > 0)
+                prefix = prefixAndArgs[0];
             if(useHelp && parts[0].equalsIgnoreCase(helpWord))
             {
-                CommandEvent cevent = new CommandEvent(event, parts[1]==null ? "" : parts[1], this);
+                CommandEvent cevent = new CommandEvent(event, prefix, parts[1]==null ? "" : parts[1], this);
                 if(listener!=null)
                     listener.onCommand(cevent, null);
                 helpConsumer.accept(cevent); // Fire help consumer
@@ -549,7 +571,7 @@ public class CommandClientImpl implements CommandClient, EventListener
 
                 if(command != null)
                 {
-                    CommandEvent cevent = new CommandEvent(event, args, this);
+                    CommandEvent cevent = new CommandEvent(event, prefix, args, this);
 
                     if(listener != null)
                         listener.onCommand(cevent, command);

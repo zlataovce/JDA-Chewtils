@@ -85,6 +85,13 @@ public interface CommandClient
     String getAltPrefix();
 
     /**
+     * Gets the array of prefixes
+     *
+     * @return A possibly-null list of prefixes
+     */
+    String[] getPrefixes();
+
+    /**
      * Returns the visual representation of the bot's prefix. 
      * 
      * <p>This is the same as {@link com.jagrosh.jdautilities.command.CommandClient#getPrefix() } unless the prefix is the default,

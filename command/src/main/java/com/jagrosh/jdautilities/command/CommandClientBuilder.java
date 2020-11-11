@@ -41,6 +41,7 @@ public class CommandClientBuilder
     private String[] coOwnerIds;
     private String prefix;
     private String altprefix;
+    private String[] prefixes;
     private String serverInvite;
     private String success;
     private String warning;
@@ -68,7 +69,7 @@ public class CommandClientBuilder
      */
     public CommandClient build()
     {
-        CommandClient client = new CommandClientImpl(ownerId, coOwnerIds, prefix, altprefix, activity, status, serverInvite,
+        CommandClient client = new CommandClientImpl(ownerId, coOwnerIds, prefix, altprefix, prefixes, activity, status, serverInvite,
                                                      success, warning, error, carbonKey, botsKey, new ArrayList<>(commands), useHelp,
                                                      shutdownAutomatically, helpConsumer, helpWord, executor, linkedCacheSize, compiler, manager);
         if(listener!=null)
@@ -135,6 +136,19 @@ public class CommandClientBuilder
     public CommandClientBuilder setAlternativePrefix(String prefix)
     {
         this.altprefix = prefix;
+        return this;
+    }
+
+    /**
+     * Sets an array of prefixes in case it's not enough. Be careful.
+     *
+     * @param prefixes
+     *        The prefixes to use
+     *
+     * @return This builder
+     */
+    public CommandClientBuilder setPrefixes(String[] prefixes) {
+        this.prefixes = prefixes;
         return this;
     }
     
