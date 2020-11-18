@@ -16,6 +16,7 @@
 package com.jagrosh.jdautilities.command;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -90,6 +91,13 @@ public interface CommandClient
      * @return A possibly-null list of prefixes
      */
     String[] getPrefixes();
+
+    /**
+     * Gets the prefix BiConsumer
+     *
+     * @return A possibly-null prefix BiConsumer
+     */
+    Function<MessageReceivedEvent, String> getPrefixFunction();
 
     /**
      * Returns the visual representation of the bot's prefix. 

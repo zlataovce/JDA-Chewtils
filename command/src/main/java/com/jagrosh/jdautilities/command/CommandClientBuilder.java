@@ -22,8 +22,11 @@ import java.util.function.Consumer;
 import com.jagrosh.jdautilities.command.impl.AnnotatedModuleCompilerImpl;
 import com.jagrosh.jdautilities.command.impl.CommandClientImpl;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Function;
+
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 /**
  * A simple builder used to create a {@link com.jagrosh.jdautilities.command.impl.CommandClientImpl CommandClientImpl}.
@@ -42,6 +45,7 @@ public class CommandClientBuilder
     private String prefix;
     private String altprefix;
     private String[] prefixes;
+    private Function<MessageReceivedEvent, String> prefixFunction;
     private String serverInvite;
     private String success;
     private String warning;
@@ -69,7 +73,7 @@ public class CommandClientBuilder
      */
     public CommandClient build()
     {
-        CommandClient client = new CommandClientImpl(ownerId, coOwnerIds, prefix, altprefix, prefixes, activity, status, serverInvite,
+        CommandClient client = new CommandClientImpl(ownerId, coOwnerIds, prefix, altprefix, prefixes, prefixFunction, activity, status, serverInvite,
                                                      success, warning, error, carbonKey, botsKey, new ArrayList<>(commands), useHelp,
                                                      shutdownAutomatically, helpConsumer, helpWord, executor, linkedCacheSize, compiler, manager);
         if(listener!=null)
@@ -149,6 +153,22 @@ public class CommandClientBuilder
      */
     public CommandClientBuilder setPrefixes(String[] prefixes) {
         this.prefixes = prefixes;
+        return this;
+    }
+
+    /**
+     * Sets the Prefix Function. Used if you want custom prefixes per server.
+     * <br>Be careful, this function should be quick,
+     * as it's executed every time MessageReceivedEvent is called.
+     * <br>If function returns null, it will be ignored.
+     *
+     * @param prefixFunction
+     *        The prefix function to execute to use
+     *
+     * @return This builder
+     */
+    public CommandClientBuilder setPrefixFunction(Function<MessageReceivedEvent, String> prefixFunction) {
+        this.prefixFunction = prefixFunction;
         return this;
     }
     

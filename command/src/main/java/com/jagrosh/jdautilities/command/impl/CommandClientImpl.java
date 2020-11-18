@@ -74,6 +74,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private final String prefix;
     private final String altprefix;
     private final String[] prefixes;
+    private final Function<MessageReceivedEvent, String> prefixFunction;
     private final String serverInvite;
     private final HashMap<String, Integer> commandIndex;
     private final ArrayList<Command> commands;
@@ -96,7 +97,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private CommandListener listener = null;
     private int totalGuilds;
 
-    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Activity activity, OnlineStatus status, String serverInvite,
+    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Function<MessageReceivedEvent, String> prefixFunction, Activity activity, OnlineStatus status, String serverInvite,
                              String success, String warning, String error, String carbonKey, String botsKey, ArrayList<Command> commands,
                              boolean useHelp, boolean shutdownAutomatically, Consumer<CommandEvent> helpConsumer, String helpWord, ScheduledExecutorService executor,
                              int linkedCacheSize, AnnotatedModuleCompiler compiler, GuildSettingsManager manager)
@@ -122,6 +123,7 @@ public class CommandClientImpl implements CommandClient, EventListener
         this.prefix = prefix==null || prefix.isEmpty() ? DEFAULT_PREFIX : prefix;
         this.altprefix = altprefix==null || altprefix.isEmpty() ? null : altprefix;
         this.prefixes = prefixes==null || prefixes.length == 0 ? null : prefixes;
+        this.prefixFunction = prefixFunction;
         this.textPrefix = prefix;
         this.activity = activity;
         this.status = status;
@@ -392,6 +394,12 @@ public class CommandClientImpl implements CommandClient, EventListener
     }
 
     @Override
+    public Function<MessageReceivedEvent, String> getPrefixFunction()
+    {
+        return prefixFunction;
+    }
+
+    @Override
     public String getAltPrefix()
     {
         return altprefix;
@@ -512,6 +520,14 @@ public class CommandClientImpl implements CommandClient, EventListener
             }
         }
         // Check for prefix
+        // Run Function check if there is one, then fallback to normal prefixes
+        if (prefixFunction != null)
+        {
+            String prefix = prefixFunction.apply(event);
+            // Don't lowercase, up to Function to handle this
+            if (prefix != null && rawContent.startsWith(prefix))
+                parts = splitOnPrefixLength(rawContent, prefixFunction.apply(event).length());
+        }
         if(parts == null && rawContent.toLowerCase().startsWith(prefix.toLowerCase()))
             parts = splitOnPrefixLength(rawContent, prefix.length());
         // Check for alternate prefix
