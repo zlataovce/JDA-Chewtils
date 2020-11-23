@@ -314,8 +314,8 @@ public abstract class Command
             return;
         }
         
-        //cooldown check
-        if(cooldown>0)
+        // cooldown check, ignoring owner
+        if(cooldown>0 && !(event.isOwner()))
         {
             String key = getCooldownKey(event);
             int remaining = event.getClient().getRemainingCooldown(key);
