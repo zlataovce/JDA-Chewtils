@@ -75,6 +75,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private final String altprefix;
     private final String[] prefixes;
     private final Function<MessageReceivedEvent, String> prefixFunction;
+    private final Function<MessageReceivedEvent, Boolean> commandPreProcessFunction;
     private final String serverInvite;
     private final HashMap<String, Integer> commandIndex;
     private final ArrayList<Command> commands;
@@ -97,7 +98,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private CommandListener listener = null;
     private int totalGuilds;
 
-    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Function<MessageReceivedEvent, String> prefixFunction, Activity activity, OnlineStatus status, String serverInvite,
+    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Function<MessageReceivedEvent, String> prefixFunction, Function<MessageReceivedEvent, Boolean> commandPreProcessFunction, Activity activity, OnlineStatus status, String serverInvite,
                              String success, String warning, String error, String carbonKey, String botsKey, ArrayList<Command> commands,
                              boolean useHelp, boolean shutdownAutomatically, Consumer<CommandEvent> helpConsumer, String helpWord, ScheduledExecutorService executor,
                              int linkedCacheSize, AnnotatedModuleCompiler compiler, GuildSettingsManager manager)
@@ -124,6 +125,7 @@ public class CommandClientImpl implements CommandClient, EventListener
         this.altprefix = altprefix==null || altprefix.isEmpty() ? null : altprefix;
         this.prefixes = prefixes==null || prefixes.length == 0 ? null : prefixes;
         this.prefixFunction = prefixFunction;
+        this.commandPreProcessFunction = commandPreProcessFunction==null ? event -> true : commandPreProcessFunction;
         this.textPrefix = prefix;
         this.activity = activity;
         this.status = status;
@@ -592,7 +594,10 @@ public class CommandClientImpl implements CommandClient, EventListener
                     if(listener != null)
                         listener.onCommand(cevent, command);
                     uses.put(command.getName(), uses.getOrDefault(command.getName(), 0) + 1);
-                    command.run(cevent);
+                    if(commandPreProcessFunction.apply(event))
+                    {
+                        command.run(cevent);
+                    }
                     return; // Command is done
                 }
             }

@@ -46,6 +46,7 @@ public class CommandClientBuilder
     private String altprefix;
     private String[] prefixes;
     private Function<MessageReceivedEvent, String> prefixFunction;
+    private Function<MessageReceivedEvent, Boolean> commandPreProcessFunction;
     private String serverInvite;
     private String success;
     private String warning;
@@ -73,7 +74,7 @@ public class CommandClientBuilder
      */
     public CommandClient build()
     {
-        CommandClient client = new CommandClientImpl(ownerId, coOwnerIds, prefix, altprefix, prefixes, prefixFunction, activity, status, serverInvite,
+        CommandClient client = new CommandClientImpl(ownerId, coOwnerIds, prefix, altprefix, prefixes, prefixFunction, commandPreProcessFunction, activity, status, serverInvite,
                                                      success, warning, error, carbonKey, botsKey, new ArrayList<>(commands), useHelp,
                                                      shutdownAutomatically, helpConsumer, helpWord, executor, linkedCacheSize, compiler, manager);
         if(listener!=null)
@@ -171,7 +172,23 @@ public class CommandClientBuilder
         this.prefixFunction = prefixFunction;
         return this;
     }
-    
+
+    /**
+     * Sets the pre-process function. This code is executed before every command.<br>
+     * Returning "true" will allow processing to proceed.<br>
+     * Returning "false" or "null" will prevent the Command from executing.
+     *
+     * @param commandPreProcessFunction
+     *        The function to execute
+     *
+     * @return This builder
+     */
+    public CommandClientBuilder setCommandPreProcessFunction(Function<MessageReceivedEvent, Boolean> commandPreProcessFunction)
+    {
+        this.commandPreProcessFunction = commandPreProcessFunction;
+        return this;
+    }
+
     /**
      * Sets whether the {@link com.jagrosh.jdautilities.command.CommandClient CommandClient} will use
      * the builder to automatically create a help command or not.
