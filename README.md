@@ -1,6 +1,12 @@
 ## JDA-Chewtils
 JDA-Chewtils is a fork of [JDA-Utilities](https://github.com/JDA-Applications/JDA-Utilities) which is a series of tools and utilities for use with [JDA](https://github.com/DV8FromTheWorld/JDA) to assist in bot creation.
 
+## Support
+
+If you're needing help or want to help, feel free to hop onto the [#jda-chewtils](https://discord.gg/SUGVxJpg8r) channel on my server. 
+
+Please do NOT use the official JDA server for help with this fork.
+
 ## Packages
 
 Since JDA-Utilities 2.x, the library has been split into multiple modular projects,
