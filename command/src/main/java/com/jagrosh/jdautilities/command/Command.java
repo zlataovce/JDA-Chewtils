@@ -68,12 +68,15 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 public abstract class Command
 {
     /**
-     * The name of the command, allows the command to be called the format: {@code [prefix]<command name>}.
+     * The name of the command, allows the command to be called the formats: <br>
+     * Normal Command: {@code [prefix]<command name>}. <br>
+     * Slash Command: {@code /<command name>}
      */
     protected String name = "null";
     
     /**
-     * A small help String that summarizes the function of the command, used in the default help builder.
+     * A small help String that summarizes the function of the command, used in the default help builder,
+     * and shown in the client for Slash Commands.
      */
     protected String help = "no help available";
     
@@ -85,6 +88,8 @@ public abstract class Command
     
     /**
      * An arguments format String for the command, used in the default help builder.
+     * Not supported for SlashCommands.
+     * @see SlashCommand#options
      */
     protected String arguments = null;
     
@@ -102,7 +107,9 @@ public abstract class Command
     
     /**
      * {@code true} if the command may only be used by a User with an ID matching the
-     * Owners or any of the CoOwners.
+     * Owners or any of the CoOwners.<br>
+     * If enabled for a Slash Command, only owners (owner + up to 9 co-owners) will be added to the SlashCommand.
+     * All other permissions will be ignored.
      * <br>Default {@code false}.
      */
     protected boolean ownerCommand = false;
@@ -127,6 +134,7 @@ public abstract class Command
     /**
      * The aliases of the command, when calling a command these function identically to calling the
      * {@link com.jagrosh.jdautilities.command.Command#name Command.name}.
+     * This options only works for normal commands, not slash commands.
      */
     protected String[] aliases = new String[0];
     
@@ -152,7 +160,8 @@ public abstract class Command
 
     /**
      * {@code true} if this command should be hidden from the help.
-     * <br>Default {@code false}
+     * <br>Default {@code false}<br>
+     * <b>This has no effect for SlashCommands.</b>
      */
     protected boolean hidden = false;
 
@@ -529,7 +538,7 @@ public abstract class Command
     }
     
     /**
-     * Checks whether or not this command should be hidden from the help
+     * Checks whether or not this command should be hidden from the help.
      *
      * @return {@code true} if the command should be hidden, otherwise {@code false}
      */
@@ -692,6 +701,7 @@ public abstract class Command
         
         /**
          * Runs a test of the provided {@link java.util.function.Predicate}.
+         * Does not support SlashCommands.
          * 
          * @param  event
          *         The {@link com.jagrosh.jdautilities.command.CommandEvent CommandEvent}
