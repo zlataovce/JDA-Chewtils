@@ -26,10 +26,7 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.internal.utils.Checks;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -453,6 +450,21 @@ public class EmbedPaginator extends Menu{
             this.embeds.addAll(Arrays.asList(embeds));
             return this;
         }
+        
+        /**
+         * Adds the collection of provided {@link net.dv8tion.jda.api.entities.MessageEmbed MessageEmbeds} to the list
+         * of items to paginate.
+         * 
+         * @param  embeds
+         *         The collection of MessageEmbeds to add
+         *         
+         * @return This builder
+         */
+        public Builder addItems(Collection<MessageEmbed> embeds)
+        {
+            this.embeds.addAll(embeds);
+            return this;
+        }
 
         /**
          * Adds {@link net.dv8tion.jda.api.entities.MessageEmbed MessageEmbeds} to the list of items to paginate.
@@ -494,6 +506,22 @@ public class EmbedPaginator extends Menu{
             return this;
         }
 
+        /**
+         * Sets the {@link net.dv8tion.jda.api.entities.MessageEmbed MessageEmbeds} to paginate.
+         * <br>This method clears all previously set items before adding the provided collection of MessageEmbeds.
+         * 
+         * @param  embeds
+         *         The collection of MessageEmbeds to set.
+         *         
+         * @return This builder
+         */
+        public Builder setItems(Collection<MessageEmbed> embeds)
+        {
+            this.embeds.clear();
+            addItems(embeds);
+            return this;
+        }
+        
         /**
          * Sets the {@link net.dv8tion.jda.api.entities.MessageEmbed MessageEmbeds} to paginate.
          * <br>This method clears all previously set items before setting each String as a new MessageEmbed.
