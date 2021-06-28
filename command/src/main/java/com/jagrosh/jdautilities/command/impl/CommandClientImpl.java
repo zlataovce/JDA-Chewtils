@@ -222,6 +222,24 @@ public class CommandClientImpl implements CommandClient, EventListener
     }
 
     @Override
+    public List<SlashCommand> getSlashCommands()
+    {
+        return slashCommands;
+    }
+
+    @Override
+    public boolean isManualUpsert()
+    {
+        return manualUpsert;
+    }
+
+    @Override
+    public String forcedGuildId()
+    {
+        return forcedGuildId;
+    }
+
+    @Override
     public OffsetDateTime getStartTime()
     {
         return start;

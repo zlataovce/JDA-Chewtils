@@ -320,6 +320,28 @@ public interface CommandClient
     List<Command> getCommands();
 
     /**
+     * Returns the list of registered {@link com.jagrosh.jdautilities.command.SlashCommand SlashCommand}s
+     * during this session.
+     *
+     * @return A never-null List of Slash Commands registered during this session
+     */
+    List<SlashCommand> getSlashCommands();
+
+    /**
+     * Returns whether manual upsertion is enabled
+     *
+     * @return The manual upsertion status
+     */
+    boolean isManualUpsert();
+
+    /**
+     * Returns the forced Guild ID for automatic slash command upserts
+     *
+     * @return A possibly-null forcedGuildId set in the builder
+     */
+    String forcedGuildId();
+
+    /**
      * Gets the time this {@link com.jagrosh.jdautilities.command.CommandClient CommandClient}
      * implementation was created.
      * 
