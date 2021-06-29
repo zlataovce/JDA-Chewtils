@@ -211,7 +211,7 @@ public abstract class SlashCommand extends Command
         // child check
         if(event.getSubcommandName() != null)
         {
-            for(SlashCommand cmd: children)
+            for(SlashCommand cmd: getChildren())
             {
                 if(cmd.isCommandFor(event.getSubcommandName()))
                 {
