@@ -22,6 +22,7 @@ import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import net.dv8tion.jda.internal.utils.Checks;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,8 +31,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <p>The EventWaiter is capable of handling specialized forms of
@@ -208,7 +207,7 @@ public class EventWaiter implements EventListener
         Checks.notNull(action, "The provided action consumer");
 
         WaitingEvent we = new WaitingEvent<>(condition, action);
-        Set<WaitingEvent> set = waitingEvents.computeIfAbsent(classType, c -> new HashSet<>());
+        Set<WaitingEvent> set = waitingEvents.computeIfAbsent(classType, c -> Collections.synchronizedSet(new HashSet<>()));
         set.add(we);
 
         if(timeout > 0 && unit != null)
@@ -234,15 +233,12 @@ public class EventWaiter implements EventListener
         // is primitive, void, or (in this case) Object.
         while(c != null)
         {
-            if(waitingEvents.containsKey(c))
+            final Set<WaitingEvent> set = waitingEvents.get(c);
+            if(set != null)
             {
-                Set<WaitingEvent> set = waitingEvents.get(c);
-                WaitingEvent[] toRemove = set.toArray(new WaitingEvent[set.size()]);
-
                 // WaitingEvent#attempt invocations that return true have passed their condition tests
-                // and executed the action. We filter the ones that return false out of the toRemove and
-                // remove them all from the set.
-                set.removeAll(Stream.of(toRemove).filter(i -> i.attempt(event)).collect(Collectors.toSet()));
+                // and executed the action. We remove the ones that have successfully ran (those that returns true)
+                set.removeIf(wEvent -> wEvent.attempt(event));
             }
             if(event instanceof ShutdownEvent && shutdownAutomatically)
             {
