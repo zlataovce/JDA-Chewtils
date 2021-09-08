@@ -553,10 +553,12 @@ public abstract class SlashCommand extends Command
             // Add owner
             privileges.add(CommandPrivilege.enableUser(client.getOwnerId()));
             // Add co-owners
-            for (String user : client.getCoOwnerIds())
-                privileges.add(CommandPrivilege.enableUser(user));
+            if (client.getCoOwnerIds() != null)
+                for (String user : client.getCoOwnerIds())
+                    privileges.add(CommandPrivilege.enableUser(user));
         }
 
+        // can only have up to 10 privileges
         if (privileges.size() > 10)
             privileges = privileges.subList(0, 10);
 
