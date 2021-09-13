@@ -15,19 +15,15 @@ body:
       - For questions join the [Discord Server of Chew](https://discord.gg/SUGVxJpg8r) and ask in the `#jda-chewtils` channel.  
         **Do not contact the JDA-Team for questions regarding JDA-Chewtils!**
       - For general programming questions ask on [StackOverflow](https://stackoverflow.com/questions/tagged/java) instead.
-- type: checkboxes
+- type: markdown
   attributes:
-    label: Issue Checklist
-    description: |-
-      Please follow the following steps before opening this issue.
+    value: |
+      Please ensure you have done the following steps before opening this issue.
       Issues that do not complete the checklist may be closed without any help.
-    options:
-    - label: I have checked for similar issues on the [Issue tracker](https://github.com/Chew/JDA-Chewtils/issues)
-      required: true
-    - label: I have updated to the [latest version](https://github.com/Chew/JDA-Chewtils/releases) of JDA-Chewtils.
-      required: true
-    - label: I have checked the branches or the maintainer's PRs for upcoming bug fixes.
-      required: true
+
+      I have checked for similar issues on the [Issue tracker](https://github.com/Chew/JDA-Chewtils/issues)
+      I have updated to the [latest version](https://github.com/Chew/JDA-Chewtils/releases) of JDA-Chewtils.
+      I have checked the branches or the maintainer's PRs for upcoming bug fixes.
 - type: dropdown
   attributes:
     label: Affected Modules
