@@ -1066,6 +1066,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/jagrosh/jdautilities/command/impl/CommandClientImpl.html#forcedGuildId()" class="member-name-link">forcedGuildId()</a> - Method in class com.jagrosh.jdautilities.command.impl.<a href="com/jagrosh/jdautilities/command/impl/CommandClientImpl.html" title="class in com.jagrosh.jdautilities.command.impl">CommandClientImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html#forceGuildOnly(long)" class="member-name-link">forceGuildOnly(long)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandClientBuilder</a></dt>
+<dd>
+<div class="block">Forces Guild Only for SlashCommands.</div>
+</dd>
 <dt><a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html#forceGuildOnly(java.lang.String)" class="member-name-link">forceGuildOnly(String)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandClientBuilder</a></dt>
 <dd>
 <div class="block">Forces Guild Only for SlashCommands.</div>
@@ -1804,6 +1808,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/jagrosh/jdautilities/oauth2/entities/impl/OAuth2UserImpl.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class com.jagrosh.jdautilities.oauth2.entities.impl.<a href="com/jagrosh/jdautilities/oauth2/entities/impl/OAuth2UserImpl.html" title="class in com.jagrosh.jdautilities.oauth2.entities.impl">OAuth2UserImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#hasOption(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String)" class="member-name-link">hasOption(SlashCommandEvent, String)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Checks to see if the event has an option.</div>
+</dd>
 <dt><a href="com/jagrosh/jdautilities/oauth2/entities/impl/OAuth2GuildImpl.html#hasPermission(net.dv8tion.jda.api.Permission...)" class="member-name-link">hasPermission(Permission...)</a> - Method in class com.jagrosh.jdautilities.oauth2.entities.impl.<a href="com/jagrosh/jdautilities/oauth2/entities/impl/OAuth2GuildImpl.html" title="class in com.jagrosh.jdautilities.oauth2.entities.impl">OAuth2GuildImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/jagrosh/jdautilities/oauth2/entities/OAuth2Guild.html#hasPermission(net.dv8tion.jda.api.Permission...)" class="member-name-link">hasPermission(Permission...)</a> - Method in interface com.jagrosh.jdautilities.oauth2.entities.<a href="com/jagrosh/jdautilities/oauth2/entities/OAuth2Guild.html" title="interface in com.jagrosh.jdautilities.oauth2.entities">OAuth2Guild</a></dt>
@@ -2234,9 +2242,53 @@ loadScripts(document, 'script');</script>
  by a <code>SlashCommandEvent</code> but is
  terminated before completion.</div>
 </dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optBoolean(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,boolean)" class="member-name-link">optBoolean(SlashCommandEvent, String, boolean)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a boolean option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optDouble(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,double)" class="member-name-link">optDouble(SlashCommandEvent, String, double)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a double option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optGuildChannel(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,net.dv8tion.jda.api.entities.GuildChannel)" class="member-name-link">optGuildChannel(SlashCommandEvent, String, GuildChannel)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a Guild Channel option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html" class="type-name-link" title="class in pw.chew.jdachewtils.command">OptionHelper</a> - Class in <a href="pw/chew/jdachewtils/command/package-summary.html">pw.chew.jdachewtils.command</a></dt>
+<dd>
+<div class="block">A collection of useful methods for working with Options.</div>
+</dd>
 <dt><a href="com/jagrosh/jdautilities/command/SlashCommand.html#options" class="member-name-link">options</a> - Variable in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/SlashCommand.html" title="class in com.jagrosh.jdautilities.command">SlashCommand</a></dt>
 <dd>
 <div class="block">An array list of OptionData.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optLong(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,long)" class="member-name-link">optLong(SlashCommandEvent, String, long)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a long option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optMember(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,net.dv8tion.jda.api.entities.Member)" class="member-name-link">optMember(SlashCommandEvent, String, Member)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a Member option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optMentionable(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,net.dv8tion.jda.api.entities.IMentionable)" class="member-name-link">optMentionable(SlashCommandEvent, String, IMentionable)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a IMentionable option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optMessageChannel(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,net.dv8tion.jda.api.entities.MessageChannel)" class="member-name-link">optMessageChannel(SlashCommandEvent, String, MessageChannel)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a MessageChannel option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optRole(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,net.dv8tion.jda.api.entities.Role)" class="member-name-link">optRole(SlashCommandEvent, String, Role)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a Role option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optString(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,java.lang.String)" class="member-name-link">optString(SlashCommandEvent, String, String)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a String option value by providing a default value.</div>
+</dd>
+<dt><a href="pw/chew/jdachewtils/command/OptionHelper.html#optUser(net.dv8tion.jda.api.events.interaction.SlashCommandEvent,java.lang.String,net.dv8tion.jda.api.entities.User)" class="member-name-link">optUser(SlashCommandEvent, String, User)</a> - Static method in class pw.chew.jdachewtils.command.<a href="pw/chew/jdachewtils/command/OptionHelper.html" title="class in pw.chew.jdachewtils.command">OptionHelper</a></dt>
+<dd>
+<div class="block">Guarantees a User option value by providing a default value.</div>
 </dd>
 <dt><a href="com/jagrosh/jdautilities/menu/OrderedMenu.html" class="type-name-link" title="class in com.jagrosh.jdautilities.menu">OrderedMenu</a> - Class in <a href="com/jagrosh/jdautilities/menu/package-summary.html">com.jagrosh.jdautilities.menu</a></dt>
 <dd>
@@ -2330,6 +2382,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A prefix annotation appended to the front of each occurrence.</div>
 </dd>
+<dt><a href="pw/chew/jdachewtils/command/package-summary.html">pw.chew.jdachewtils.command</a> - package pw.chew.jdachewtils.command</dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:Q">Q</h2>
 <dl class="index">
@@ -2848,6 +2902,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the <a href="com/jagrosh/jdautilities/command/Command.html#cooldownScope"><code>cooldown scope</code></a> of the Command built from this CommandBuilder.</div>
 </dd>
+<dt><a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html#setCoOwnerIds(long...)" class="member-name-link">setCoOwnerIds(long...)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandClientBuilder</a></dt>
+<dd>
+<div class="block">Sets the one or more CoOwners of the bot.</div>
+</dd>
 <dt><a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html#setCoOwnerIds(java.lang.String...)" class="member-name-link">setCoOwnerIds(String...)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandClientBuilder</a></dt>
 <dd>
 <div class="block">Sets the one or more CoOwners of the bot.</div>
@@ -3024,6 +3082,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/jagrosh/jdautilities/command/CommandBuilder.html#setOwnerCommand(boolean)" class="member-name-link">setOwnerCommand(boolean)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandBuilder</a></dt>
 <dd>
 <div class="block">Sets the Command built to be <a href="com/jagrosh/jdautilities/command/Command.html#ownerCommand"><code>owner only</code></a>.</div>
+</dd>
+<dt><a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html#setOwnerId(long)" class="member-name-link">setOwnerId(long)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandClientBuilder</a></dt>
+<dd>
+<div class="block">Sets the owner for the bot.</div>
 </dd>
 <dt><a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html#setOwnerId(java.lang.String)" class="member-name-link">setOwnerId(String)</a> - Method in class com.jagrosh.jdautilities.command.<a href="com/jagrosh/jdautilities/command/CommandClientBuilder.html" title="class in com.jagrosh.jdautilities.command">CommandClientBuilder</a></dt>
 <dd>

@@ -16,3 +16,4 @@ com.jagrosh.jdautilities.oauth2.exceptions
 com.jagrosh.jdautilities.oauth2.requests
 com.jagrosh.jdautilities.oauth2.session
 com.jagrosh.jdautilities.oauth2.state
+pw.chew.jdachewtils.command
