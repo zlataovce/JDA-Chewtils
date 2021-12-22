@@ -27,10 +27,10 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 
 /**
- * <h1><b>Commands In JDA-Utilities</b></h1>
- * 
- * <p>The internal inheritance for Commands used in JDA-Utilities is that of the Command object.
- * 
+ * <h2>Commands In JDA-Utilities</h2>
+ *
+ * <p>The internal inheritance for Commands used in JDA-Utilities is that of the Command object.</p>
+ *
  * <p>Classes created inheriting this class gain the unique traits of commands operated using the Commands Extension.
  * <br>Using several fields, a command can define properties that make it unique and complex while maintaining 
  * a low level of development. 
@@ -795,7 +795,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|U:<userID>}
+         *     <li>{@code <command-name>|U:<userID>}</li>
          * </ul>
          */
         USER("U:%d",""),
@@ -806,7 +806,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|C:<channelID>}
+         *     <li>{@code <command-name>|C:<channelID>}</li>
          * </ul>
          */
         CHANNEL("C:%d","in this channel"),
@@ -817,7 +817,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|U:<userID>|C:<channelID>}
+         *     <li>{@code <command-name>|U:<userID>|C:<channelID>}</li>
          * </ul>
          */
         USER_CHANNEL("U:%d|C:%d", "in this channel"),
@@ -827,7 +827,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|G:<guildID>}
+         *     <li>{@code <command-name>|G:<guildID>}</li>
          * </ul>
          *
          * <p><b>NOTE:</b> This will automatically default back to {@link com.jagrosh.jdautilities.command.Command.CooldownScope#CHANNEL CooldownScope.CHANNEL}
@@ -842,7 +842,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|U:<userID>|G:<guildID>}
+         *     <li>{@code <command-name>|U:<userID>|G:<guildID>}</li>
          * </ul>
          *
          * <p><b>NOTE:</b> This will automatically default back to {@link com.jagrosh.jdautilities.command.Command.CooldownScope#CHANNEL CooldownScope.CHANNEL}
@@ -856,7 +856,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|S:<shardID>}
+         *     <li>{@code <command-name>|S:<shardID>}</li>
          * </ul>
          *
          * <p><b>NOTE:</b> This will automatically default back to {@link com.jagrosh.jdautilities.command.Command.CooldownScope#GLOBAL CooldownScope.GLOBAL}
@@ -872,7 +872,7 @@ public abstract class Command
          *
          * <p>The key for this is generated in the format
          * <ul>
-         *     {@code <command-name>|U:<userID>|S:<shardID>}
+         *     <li>{@code <command-name>|U:<userID>|S:<shardID>}</li>
          * </ul>
          *
          * <p><b>NOTE:</b> This will automatically default back to {@link com.jagrosh.jdautilities.command.Command.CooldownScope#USER CooldownScope.USER}
