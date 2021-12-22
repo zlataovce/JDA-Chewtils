@@ -1,0 +1,39 @@
+name: Build Javadocs
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: 17
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: JDK ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'adopt'
+      - name: Cache gradle
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/jdks
+            ~/.gradle/native
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-paper-2-${{ hashFiles('**/*.gradle*', 'gradle/**', 'gradle.properties') }}
+          restore-keys: ${{ runner.os }}-paper-2
+      - name: Patch and build
+        run: |
+          chmod u+x ./gradlew
+          ./gradlew javadoc --stacktrace
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.7.3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./public
