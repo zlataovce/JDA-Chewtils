@@ -50,6 +50,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -81,6 +82,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private final String[] prefixes;
     private final Function<MessageReceivedEvent, String> prefixFunction;
     private final Function<MessageReceivedEvent, Boolean> commandPreProcessFunction;
+    private final BiFunction<MessageReceivedEvent, Command, Boolean> commandPreProcessBiFunction;
     private final String serverInvite;
     private final HashMap<String, Integer> commandIndex;
     private final HashMap<String, Integer> slashCommandIndex;
@@ -108,7 +110,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private CommandListener listener = null;
     private int totalGuilds;
 
-    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Function<MessageReceivedEvent, String> prefixFunction, Function<MessageReceivedEvent, Boolean> commandPreProcessFunction, Activity activity, OnlineStatus status, String serverInvite,
+    public CommandClientImpl(String ownerId, String[] coOwnerIds, String prefix, String altprefix, String[] prefixes, Function<MessageReceivedEvent, String> prefixFunction, Function<MessageReceivedEvent, Boolean> commandPreProcessFunction, BiFunction<MessageReceivedEvent, Command, Boolean> commandPreProcessBiFunction, Activity activity, OnlineStatus status, String serverInvite,
                              String success, String warning, String error, String carbonKey, String botsKey, ArrayList<Command> commands, ArrayList<SlashCommand> slashCommands, String forcedGuildId, boolean manualUpsert,
                              boolean useHelp, boolean shutdownAutomatically, Consumer<CommandEvent> helpConsumer, String helpWord, ScheduledExecutorService executor,
                              int linkedCacheSize, AnnotatedModuleCompiler compiler, GuildSettingsManager manager)
@@ -140,7 +142,8 @@ public class CommandClientImpl implements CommandClient, EventListener
         }
 
         this.prefixFunction = prefixFunction;
-        this.commandPreProcessFunction = commandPreProcessFunction==null ? event -> true : commandPreProcessFunction;
+        this.commandPreProcessFunction = commandPreProcessFunction;
+        this.commandPreProcessBiFunction = commandPreProcessBiFunction;
         this.textPrefix = prefix;
         this.activity = activity;
         this.status = status;
@@ -667,7 +670,12 @@ public class CommandClientImpl implements CommandClient, EventListener
                     if(listener != null)
                         listener.onCommand(cevent, command);
                     uses.put(command.getName(), uses.getOrDefault(command.getName(), 0) + 1);
-                    if(commandPreProcessFunction.apply(event))
+                    if(commandPreProcessFunction != null && commandPreProcessFunction.apply(event))
+                    {
+                        command.run(cevent);
+                        return;
+                    }
+                    if(commandPreProcessBiFunction != null && commandPreProcessBiFunction.apply(event, command))
                     {
                         command.run(cevent);
                     }
