@@ -57,14 +57,14 @@ import java.util.stream.Collectors;
 
 /**
  * An implementation of {@link com.jagrosh.jdautilities.command.CommandClient CommandClient} to be used by a bot.
- * 
+ *
  * <p>This is a listener usable with {@link net.dv8tion.jda.api.JDA JDA}, as it implements
  * {@link net.dv8tion.jda.api.hooks.EventListener EventListener} in order to catch and use different kinds of
  * {@link net.dv8tion.jda.api.events.Event Event}s. The primary usage of this is where the CommandClient implementation
  * takes {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent}s, and automatically
  * processes arguments, and provide them to a {@link com.jagrosh.jdautilities.command.Command Command} for
  * running and execution.
- * 
+ *
  * @author John Grosh (jagrosh)
  */
 public class CommandClientImpl implements CommandClient, EventListener
@@ -453,7 +453,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     {
         return executor;
     }
-    
+
     @Override
     public String getServerInvite()
     {
@@ -569,9 +569,9 @@ public class CommandClientImpl implements CommandClient, EventListener
             return;
         }
         textPrefix = prefix.equals(DEFAULT_PREFIX) ? "@"+event.getJDA().getSelfUser().getName()+" " : prefix;
-        
-        if(activity != null) 
-            event.getJDA().getPresence().setPresence(status==null ? OnlineStatus.ONLINE : status, 
+
+        if(activity != null)
+            event.getJDA().getPresence().setPresence(status==null ? OnlineStatus.ONLINE : status,
                 "default".equals(activity.getName()) ? Activity.playing("Type "+textPrefix+helpWord) : activity);
 
         // Start SettingsManager if necessary
@@ -670,12 +670,25 @@ public class CommandClientImpl implements CommandClient, EventListener
                     if(listener != null)
                         listener.onCommand(cevent, command);
                     uses.put(command.getName(), uses.getOrDefault(command.getName(), 0) + 1);
-                    if(commandPreProcessFunction != null && commandPreProcessFunction.apply(event))
+                    if (commandPreProcessFunction != null || commandPreProcessBiFunction != null)
                     {
-                        command.run(cevent);
+                        // Apply both pre-process functions
+                        if (commandPreProcessFunction != null && commandPreProcessFunction.apply(event))
+                        {
+                            command.run(cevent);
+                            return;
+                        }
+
+                        if (commandPreProcessBiFunction != null && commandPreProcessBiFunction.apply(event, command))
+                        {
+                            command.run(cevent);
+                            return;
+                        }
+
+                        // If we are here, neither function returned true, so we can just return
                         return;
                     }
-                    if(commandPreProcessBiFunction != null && commandPreProcessBiFunction.apply(event, command))
+                    else
                     {
                         command.run(cevent);
                     }
@@ -836,7 +849,7 @@ public class CommandClientImpl implements CommandClient, EventListener
             FormBody.Builder bodyBuilder = new FormBody.Builder()
                     .add("key", carbonKey)
                     .add("servercount", Integer.toString(jda.getGuilds().size()));
-            
+
             if(jda.getShardInfo() != null)
             {
                 bodyBuilder.add("shard_id", Integer.toString(jda.getShardInfo().getShardId()))
@@ -863,7 +876,7 @@ public class CommandClientImpl implements CommandClient, EventListener
                 }
             });
         }
-        
+
         if(botsKey != null)
         {
             JSONObject body = new JSONObject().put("guildCount", jda.getGuilds().size());
@@ -872,7 +885,7 @@ public class CommandClientImpl implements CommandClient, EventListener
                 body.put("shardId", jda.getShardInfo().getShardId())
                     .put("shardCount", jda.getShardInfo().getShardTotal());
             }
-            
+
             Request.Builder builder = new Request.Builder()
                     .post(RequestBody.create(MediaType.parse("application/json"), body.toString()))
                     .url("https://discord.bots.gg/api/v1/bots/" + jda.getSelfUser().getId() + "/stats")
