@@ -441,7 +441,6 @@ public class CommandClientBuilder
 
     /**
      * Forces Guild Only for SlashCommands.
-     * This is the same as setting this.guildOnly = true and this.guildId = your value for every command.
      * Setting this to null disables the feature, but it is off by default.
      *
      * @param guildId the guild ID.
@@ -455,7 +454,6 @@ public class CommandClientBuilder
 
     /**
      * Forces Guild Only for SlashCommands.
-     * This is the same as setting this.guildOnly = true and this.guildId = your value for every command.
      * Setting this to null disables the feature, but it is off by default.
      *
      * @param guildId the guild ID.
