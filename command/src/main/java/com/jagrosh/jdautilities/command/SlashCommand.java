@@ -16,10 +16,10 @@
 package com.jagrosh.jdautilities.command;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -279,7 +279,7 @@ public abstract class SlashCommand extends Command
                     if(p.name().startsWith("VOICE"))
                     {
                         GuildVoiceState gvc = event.getMember().getVoiceState();
-                        VoiceChannel vc = gvc == null ? null : gvc.getChannel();
+                        AudioChannel vc = gvc == null ? null : gvc.getChannel();
                         if(vc==null)
                         {
                             terminate(event, client.getError()+" You must be in a voice channel to use that!", client);
