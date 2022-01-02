@@ -652,7 +652,7 @@ public class CommandClientImpl implements CommandClient, EventListener
                     listener.onCompletedCommand(cevent, null);
                 return; // Help Consumer is done
             }
-            else if(event.isFromType(ChannelType.PRIVATE) || event.getTextChannel().canTalk())
+            else if(event.isFromType(ChannelType.PRIVATE) || event.getChannel().canTalk())
             {
                 String name = parts.command;
                 String args = parts.args;
