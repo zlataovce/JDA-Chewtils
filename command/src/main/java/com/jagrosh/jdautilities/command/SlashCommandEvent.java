@@ -351,4 +351,19 @@ public class SlashCommandEvent extends SlashCommandInteractionEvent {
     {
         return getChannelType() == channelType;
     }
+
+    @Override
+    @NotNull
+    public ChannelType getChannelType()
+    {
+        ChannelType type;
+        try {
+            type = super.getChannelType();
+        } catch (ClassCastException e) {
+            // Probably voice
+            type = ChannelType.VOICE;
+        }
+
+        return type;
+    }
 }

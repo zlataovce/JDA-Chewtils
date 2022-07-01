@@ -41,6 +41,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.RawGatewayEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -53,6 +54,11 @@ import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.utils.data.DataObject;
+import net.dv8tion.jda.internal.JDAImpl;
+import net.dv8tion.jda.internal.interactions.command.MessageContextInteractionImpl;
+import net.dv8tion.jda.internal.interactions.command.SlashCommandInteractionImpl;
+import net.dv8tion.jda.internal.interactions.command.UserContextInteractionImpl;
 import net.dv8tion.jda.internal.utils.Checks;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -650,6 +656,34 @@ public class CommandClientImpl implements CommandClient, EventListener
         {
             if(shutdownAutomatically)
                 shutdown();
+        }
+        else if (event instanceof RawGatewayEvent)
+        {
+            JDAImpl api = (JDAImpl) event.getJDA();
+            long responseNumber = event.getResponseNumber();
+            DataObject packageData = ((RawGatewayEvent) event).getPackage();
+            DataObject content = packageData.getObject("d");
+            if (packageData.getString("t").equals("INTERACTION_CREATE"))
+            {
+                switch (net.dv8tion.jda.api.interactions.commands.Command.Type.fromId(content.getObject("data").getInt("type")))
+                {
+                    case SLASH:
+                        onSlashCommand(
+                            new SlashCommandInteractionEvent(api, responseNumber,
+                                new SlashCommandInteractionImpl(api, content)));
+                        break;
+                    case MESSAGE:
+                        onMessageContextMenu(
+                            new MessageContextInteractionEvent(api, responseNumber,
+                                new MessageContextInteractionImpl(api, content)));
+                        break;
+                    case USER:
+                        onUserContextMenu(
+                            new UserContextInteractionEvent(api, responseNumber,
+                                new UserContextInteractionImpl(api, content)));
+                        break;
+                }
+            }
         }
     }
 
