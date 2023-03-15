@@ -1,6 +1,7 @@
 com.jagrosh.jdautilities.command
 com.jagrosh.jdautilities.command.annotation
 com.jagrosh.jdautilities.command.impl
+com.jagrosh.jdautilities.command.interfaces
 com.jagrosh.jdautilities.commons
 com.jagrosh.jdautilities.commons.utils
 com.jagrosh.jdautilities.commons.waiter
