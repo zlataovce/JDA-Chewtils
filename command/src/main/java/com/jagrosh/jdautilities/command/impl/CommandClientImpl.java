@@ -189,7 +189,11 @@ public class CommandClientImpl implements CommandClient, EventListener
                 User owner = event.getJDA().getUserById(ownerId);
                 if(owner!=null)
                 {
-                    builder.append("\n\nFor additional help, contact **").append(owner.getName()).append("**#").append(owner.getDiscriminator());
+                    builder.append("\n\nFor additional help, contact **").append(owner.getName()).append("**");
+                    if (!owner.getDiscriminator().equals("0000")) {
+                        builder.append("#").append(owner.getDiscriminator());
+                    }
+
                     if(serverInvite!=null)
                         builder.append(" or join ").append(serverInvite);
                 }

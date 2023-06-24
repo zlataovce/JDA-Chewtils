@@ -69,8 +69,13 @@ public class ServerinfoCommand extends Command
                 verif = guild.getVerificationLevel().name(); 
                 break;
         }
+        String discrimStr = "";
+        if (owner != null && !owner.getUser().getDiscriminator().equals("0000")) {
+            discrimStr = "#" + owner.getUser().getDiscriminator();
+        }
+
         String str = LINESTART + "ID: **" + guild.getId() + "**\n"
-                + LINESTART + "Owner: " + (owner == null ? "Unknown" : "**" + owner.getUser().getName() + "**#" + owner.getUser().getDiscriminator()) + "\n"
+                + LINESTART + "Owner: " + (owner == null ? "Unknown" : "**" + owner.getUser().getName() + "**" + discrimStr) + "\n"
                 + LINESTART + "Creation: **" + guild.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME) + "**\n"
                 + LINESTART + "Users: **" + guild.getMemberCache().size() + "** (" + onlineCount + " online, " + botCount + " bots)\n"
                 + LINESTART + "Channels: **" + guild.getTextChannelCache().size() + "** Text, **" + guild.getVoiceChannelCache().size() + "** Voice, **" + guild.getCategoryCache().size() + "** Categories\n"
